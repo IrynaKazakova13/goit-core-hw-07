@@ -137,23 +137,20 @@ class AddressBook(UserDict):  # Клас для зберігання та упр
         today = date.today()
 
         for record in self.data.values():
-            birthday_this_year = self.string_to_date(record.birthday.value).replace(
-                year=today.year
-            )
-            if birthday_this_year < today:
-                birthday_this_year = self.string_to_date(record.birthday.value).replace(
-                    year=today.year + 1
-                )
+            if record.birthday is not None:
+                birthday_this_year = self.string_to_date(record.birthday.value).replace(year=today.year)
+                if birthday_this_year < today:
+                    birthday_this_year = self.string_to_date(record.birthday.value).replace(year=today.year + 1)
 
-            # Додано перевірку, чи не буде припадати день народження вже наступного року.
-            if 0 <= (birthday_this_year - today).days <= days:
+                # Додано перевірку, чи не буде припадати день народження вже наступного року.
+                if 0 <= (birthday_this_year - today).days <= days:
 
-                # Додано перенесення дати привітання на наступний робочий день, якщо день народження припадає на вихідний.
-                birthday_this_year = self.adjust_for_weekend(birthday_this_year)
-                congratulation_date_str = self.date_to_string(birthday_this_year)
-                upcoming_birthdays.append(
-                    {"name": record.name.value, "birthday": congratulation_date_str}
-                )
+                    # Додано перенесення дати привітання на наступний робочий день, якщо день народження припадає на вихідний.
+                    birthday_this_year = self.adjust_for_weekend(birthday_this_year)
+                    congratulation_date_str = self.date_to_string(birthday_this_year)
+                    upcoming_birthdays.append(
+                        {"name": record.name.value, "birthday": congratulation_date_str}
+                    )
         return upcoming_birthdays
 
     # Реалізовано магічний метод __str__ для красивого виводу об’єкту класу AddressBook .
@@ -351,3 +348,15 @@ if __name__ == "__main__":
 
 # list_of_birthdays = book.get_upcoming_birthdays()
 # print(list_of_birthdays)
+# add Max 4567890654
+# add Max 7689000098
+# add-birthday Max 1.12.2000
+
+# add Maria 7655443322
+# phone Maria
+# show-birthday Max
+# birthdays
+# add-birthday Maria 04.12.1990
+# add John 345678976
+# add-birthday John 4.02.1990
+# add Dan 765437896
